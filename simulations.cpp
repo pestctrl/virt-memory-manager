@@ -8,11 +8,7 @@
 #include "ReplacementAlgorithm.h"
 using namespace std;
 
-struct Entry {
-  int virtualAddr;
-  int physicalAddr;
-  int data;
-};
+enum Strategy {fifo, lifo, lrux, ldf, optx, ws};
 
 void op_sem(int semid, int semnum, int op) {
   struct sembuf sb;
@@ -31,57 +27,77 @@ void wait(int semid, int semnum) {
   op_sem(semid, semnum, -1);
 }
 
-void pageFault(Entry &e, int virtualAddress, Process * p, int shmid) {
+void pageFault(Entry &e, int virtPages, Process * p, int shmid) {
   int * counter = (int*)shmat(shmid,0,0);
   (*counter)++;
   shmdt(counter);
 
-  e.physicalAddr = convertToPhysical(virtualAddress, p);
+  e.physPage = convertToPhysical(virtPages, p);
   e.data = 2;
 }
 
 bool isInMainMemory(int vaddr, Entry * mainMemory, int frames) {
   for(int i = 0; i < frames; i++) {
-    if(mainMemory[i].virtualAddr == vaddr)
+    if(mainMemory[i].virtPage == vaddr)
       return true;
   }
   return false;
 }
 
-void becomeProcess(Everything * e, int semid, int shmid, int id) {
+void becomeProcess(Everything * e, int semid, int shmid, int id, Strategy s) {
   wait(semid, id+1);
+  Process * p = e->processes[id];
   
-  Entry * pageFrames = new Entry[e->pageFramesPerProcess];
   int nextSpot = 0;
   int counter = 0;
 
   IReplacementAlgorithm * ra = NULL;
-  ra = new LIFO();
-  ra->access(10);
-
-  for(int i = 0; i < e->pageFramesPerProcess; i++) {
-    pageFrames[i].virtualAddr = -1;
+  switch(s) {
+  case fifo : ra = new FIFO(e->pageFramesPerProcess, p->id, shmid);
+    break;
+  case lifo : ra = new LIFO(e->pageFramesPerProcess, p->id, shmid);
+    break;
+  case lrux : ra = new LRUX(e->pageFramesPerProcess, p->id, shmid, e->xValue);
+    break;
+  case ldf : ra = new LDF(e->pageFramesPerProcess, p->id, shmid, p->accesses, p->offsetBits);
+    break;
+  case optx : ra = new OPTX(e->pageFramesPerProcess, p->id, shmid, e->xValue, p->accesses);
+    break;
+    /*
+  case ws : ra = new WS(e->pageFramesPerProcess, p->id, shmid, e->min, e->max);
+  break;*/
   }
-  
-  for(int i = 0; i < e->processes[id]->accesses.size(); i++) {
-    int virtAddr = e->processes[id]->accesses[i];
-    int virtSegAndPage = virtAddr / twoToThe(e->processes[id]->offsetBits);
 
-    if(!isInMainMemory(virtSegAndPage, pageFrames, e->pageFramesPerProcess)) {
-      pageFrames[nextSpot%e->pageFramesPerProcess].virtualAddr = virtSegAndPage;
-      pageFault(pageFrames[nextSpot%e->pageFramesPerProcess], virtAddr, e->processes[id], shmid);
-      counter++;
-      nextSpot++;
-    }
+  for(int i = 0; i < p->accesses.size(); i++) {
+    ra->access(p->accesses[i], p->segmentBits, p->pageBits, p->offsetBits);
   }
+
+  ra->report();
   
-  printf("Process %d: %d page faults\n", e->processes[id]->id, counter);
   signal(semid, 0);
 }
 
-void FIFO(Everything * e) {
+void runSimulation(Everything * e, Strategy s) {
+  switch(s) {
+  case fifo : cout << "Running FIFO simulation" << endl;
+    break;
+  case lifo : cout << "Running LIFO simulation" << endl;
+    break;
+  case lrux : cout << "Running LRUX simulation" << endl;
+    break;
+  case optx : cout << "Running OPTX simulation" << endl;
+    break;
+  case ldf : cout << "Running LDF simulation" << endl;
+    break;
+  case Strategy::ws : cout << "Running WS simulation" << endl;
+    break;
+  }
+  
   long key; 
   int pageFaultCounter = shmget(key++, sizeof(int), IPC_CREAT | 0666);
+  int * c = (int*)shmat(pageFaultCounter,0,0);
+  *c = 0;
+  shmdt(c);
   int semid = semget(key++, e->processes.size()+1, IPC_CREAT | 0666);
 
   int id;
@@ -99,17 +115,24 @@ void FIFO(Everything * e) {
       wait(semid, 0);
     }
     int * counter = (int*)shmat(pageFaultCounter,0,0);
-    printf("Total page faults: %d", *counter);
+    printf("Total page faults: %d\n", *counter);
+    cout << endl;
   }
   else if(id == -1) {
     cout << "I am the page fault handler" << endl;
+    exit(0);
   }
   else {
-    becomeProcess(e, semid, pageFaultCounter, id);
+    becomeProcess(e, semid, pageFaultCounter, id, s);
+    exit(0);
   }
-
 }
 
 void runSimulations(Everything * e) {
-  FIFO(e);
+  runSimulation(e, fifo);
+  runSimulation(e, lifo);
+  runSimulation(e, lrux);
+  runSimulation(e, ldf);
+  runSimulation(e, optx);
+  //runSimulation(e, ws);
 }

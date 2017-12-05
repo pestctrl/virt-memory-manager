@@ -1,0 +1,8 @@
+#include "IReplacementAlgorithm.h"
+
+class LIFO : public IReplacementAlgorithm {
+ public:
+  int max;
+  LIFO(int pages, int id, int shmid);
+  virtual void access(int virt, int segBits, int pageBits, int offBits);
+};
