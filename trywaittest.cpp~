@@ -1,0 +1,30 @@
+  
+void op_sem(int semid, int semnum, int op) {
+  struct sembuf sb;
+  sb.sem_num = semnum;
+  sb.sem_op = op;
+  sb.sem_flg = 0;
+
+  semop(semid, &sb, 1);
+}
+
+void signal(int semid, int semnum) {
+  op_sem(semid, semnum, 1);
+}
+
+void wait(int semid, int semnum) {
+  op_sem(semid, semnum, -1);
+}
+
+void trywait(int semid, int semnum) {
+  struct sembuf sb;
+  sb.sem_num = semnum;
+  sb.sem_op = op;
+  sb.sem_flg = IPC_NOWAIT;
+
+  semop(semid, &sb, 1);
+}
+
+int main() {
+
+}

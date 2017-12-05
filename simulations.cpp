@@ -27,6 +27,15 @@ void wait(int semid, int semnum) {
   op_sem(semid, semnum, -1);
 }
 
+int trywait(int semid, int semnum) {
+  struct sembuf sb;
+  sb.sem_num = semnum;
+  sb.sem_op = -1;
+  sb.sem_flg = IPC_NOWAIT;
+
+  semop(semid, &sb, 1);
+}
+
 void pageFault(Entry &e, int virtPages, Process * p, int shmid) {
   int * counter = (int*)shmat(shmid,0,0);
   (*counter)++;
@@ -45,7 +54,7 @@ bool isInMainMemory(int vaddr, Entry * mainMemory, int frames) {
 }
 
 void becomeProcess(Everything * e, int semid, int shmid, int id, Strategy s) {
-  wait(semid, id+1);
+  wait(semid, id+3);
   Process * p = e->processes[id];
   
   int nextSpot = 0;
@@ -98,7 +107,7 @@ void runSimulation(Everything * e, Strategy s) {
   int * c = (int*)shmat(pageFaultCounter,0,0);
   *c = 0;
   shmdt(c);
-  int semid = semget(key++, e->processes.size()+1, IPC_CREAT | 0666);
+  int semid = semget(key++, e->processes.size()+3, IPC_CREAT | 0666);
 
   int id;
   int numProcesses = e->processes.size();
@@ -111,16 +120,26 @@ void runSimulation(Everything * e, Strategy s) {
 
   if(id == -2) {
     for(int i = 0; i < numProcesses; i++) {
-      signal(semid, i+1);
+      signal(semid, i+3);
       wait(semid, 0);
     }
-    int * counter = (int*)shmat(pageFaultCounter,0,0);
-    printf("Total page faults: %d\n", *counter);
+    signal(semid,2);
+    wait(semid,0);
     cout << endl;
   }
   else if(id == -1) {
-    cout << "I am the page fault handler" << endl;
-    exit(0);
+    while(true) {
+      if(trywait(semid,1) == -1) {
+
+      }
+      if(trywait(semid,2) != -1) {
+	int * counter = (int*)shmat(pageFaultCounter,0,0);
+	printf("Total page faults: %d\n", *counter);
+	shmdt(counter);
+	signal(semid,0);
+	exit(0);
+      }
+    }
   }
   else {
     becomeProcess(e, semid, pageFaultCounter, id, s);
