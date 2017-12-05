@@ -1,0 +1,12 @@
+#include <iostream>
+#include "IReplacementAlgorithm"
+#include "ReplacementAlgorithm.h"
+using namespace std;
+
+FIFO::FIFO() {
+
+}
+
+void FIFO::access(int virt) {
+  printf("FIFO accessing address %d\n", virt);
+}
