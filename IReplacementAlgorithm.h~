@@ -1,5 +1,0 @@
-
-class ReplacementAlgorithm {
- public:
-  virtual void access() = 0
-}
