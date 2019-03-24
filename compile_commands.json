@@ -1,1 +1,74 @@
-[]
+[
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-Iinc",
+            "-o",
+            "build/semaphores.o",
+            "src/semaphores.cpp"
+        ],
+        "directory": "/home/benson/big_files/MEGA/school/fall_2017/os_cosc_3360/hw3/code",
+        "file": "src/semaphores.cpp"
+    },
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-Iinc",
+            "-o",
+            "build/everything.o",
+            "src/everything.cpp"
+        ],
+        "directory": "/home/benson/big_files/MEGA/school/fall_2017/os_cosc_3360/hw3/code",
+        "file": "src/everything.cpp"
+    },
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-Iinc",
+            "-o",
+            "build/main.o",
+            "src/main.cpp"
+        ],
+        "directory": "/home/benson/big_files/MEGA/school/fall_2017/os_cosc_3360/hw3/code",
+        "file": "src/main.cpp"
+    },
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-Iinc",
+            "-o",
+            "build/ReplacementAlgorithm.o",
+            "src/ReplacementAlgorithm.cpp"
+        ],
+        "directory": "/home/benson/big_files/MEGA/school/fall_2017/os_cosc_3360/hw3/code",
+        "file": "src/ReplacementAlgorithm.cpp"
+    },
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-Iinc",
+            "-o",
+            "build/simulations.o",
+            "src/simulations.cpp"
+        ],
+        "directory": "/home/benson/big_files/MEGA/school/fall_2017/os_cosc_3360/hw3/code",
+        "file": "src/simulations.cpp"
+    },
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-Iinc",
+            "-o",
+            "build/IReplacementAlgorithm.o",
+            "src/IReplacementAlgorithm.cpp"
+        ],
+        "directory": "/home/benson/big_files/MEGA/school/fall_2017/os_cosc_3360/hw3/code",
+        "file": "src/IReplacementAlgorithm.cpp"
+    }
+]
