@@ -39,8 +39,8 @@ int convertToDecimal(string s) {
   return result;
 }
 
-Everything * getEverything(char * filename) {
-  Everything * e = new Everything;
+Arguments * parseArguments(char * filename) {
+  Arguments * e = new Arguments;
   ifstream file(filename);
 
   int numberOfPageFrames, maxSegmentLength, pageSize;

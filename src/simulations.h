@@ -1,2 +1,2 @@
-#include "ReplacementAlgorithm.h"
-void runSimulations(Everything * e, bool verbose);
+#include "impl/ReplacementAlgorithm.h"
+void runSimulations(Arguments * e, bool verbose);

@@ -8,12 +8,12 @@ struct Process {
   vector<int> accesses;
 };
 
-struct Everything {
+struct Arguments {
   int pageFramesPerProcess, xValue, wsMin, wsMax;
   vector<Process*> processes;
 };
 
-Everything * getEverything(char * filename);
+Arguments * parseArguments(char * filename);
 
 int twoToThe(int x);
 

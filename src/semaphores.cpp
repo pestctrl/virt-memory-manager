@@ -24,7 +24,7 @@ int trywait(int semid, int semnum) {
   sb.sem_op = -1;
   sb.sem_flg = IPC_NOWAIT;
 
-  semop(semid, &sb, 1);
+  return semop(semid, &sb, 1);
 }
 
 int getVal(int semid, int semnum) {

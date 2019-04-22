@@ -16,7 +16,7 @@ int main(int argc, char ** argv) {
   bool verbose;
   printf("Would you like to run in verbose mode? (y/n) ");
   char c; cin >> c;
-  cout << "Your response was " << c << endl;
+  //cout << "Your response was " << c << endl;
   switch(c) {
   case 'y': verbose = true;
     break;
@@ -25,5 +25,5 @@ int main(int argc, char ** argv) {
   default: cout << "Your response was invalid. Defaulting to \"n\"" << endl;
     verbose = false;
   }
-  runSimulations(getEverything(argv[1]), verbose);
+  runSimulations(parseArguments(argv[1]), verbose);
 }

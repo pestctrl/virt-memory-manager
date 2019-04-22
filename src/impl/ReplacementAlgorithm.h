@@ -1,4 +1,4 @@
-#include "IReplacementAlgorithm.h"
+#include "../IReplacementAlgorithm.h"
 #include <vector>
 using namespace std;
 

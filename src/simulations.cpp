@@ -29,7 +29,7 @@ bool isInMainMemory(int vaddr, Entry * mainMemory, int frames) {
   return false;
 }
 
-void becomeProcess(Everything * e, int semid, int id, Strategy s, bool verbose) {
+void becomeProcess(Arguments * e, int semid, int id, Strategy s, bool verbose) {
   wait(semid, id*2+4);
 
   Process * p = e->processes[id];
@@ -62,7 +62,7 @@ void becomeProcess(Everything * e, int semid, int id, Strategy s, bool verbose) 
   signal(semid, 0);
 }
 
-void becomePageHandler(int numProcesses, int semid, Everything * e) {
+void becomePageHandler(int numProcesses, int semid, Arguments * e) {
     int * faults = new int[numProcesses];
     for(int i = 0; i < numProcesses; i++) {
       faults[i] = 0;
@@ -93,7 +93,7 @@ void becomePageHandler(int numProcesses, int semid, Everything * e) {
     }
 }
 
-void runSimulation(Everything * e, Strategy s, bool verbose) {
+void runSimulation(Arguments * e, Strategy s, bool verbose) {
   switch(s) {
   case fifo : cout << "Running FIFO simulation" << endl;
     break;
@@ -138,7 +138,7 @@ void runSimulation(Everything * e, Strategy s, bool verbose) {
   }
 }
 
-void runSimulations(Everything * e, bool verbose) {
+void runSimulations(Arguments * e, bool verbose) {
   runSimulation(e, fifo, verbose);
   runSimulation(e, lifo, verbose);
   runSimulation(e, lrux, verbose);

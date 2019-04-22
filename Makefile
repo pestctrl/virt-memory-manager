@@ -5,17 +5,21 @@ ODIR = build
 SDIR = src
 INC = -Iinc
 
-_OBJS = main.o simulations.o IReplacementAlgorithm.o \
-	ReplacementAlgorithm.o semaphores.o everything.o
-OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
+SOURCES = $(wildcard $(SDIR)/*.cpp)
+REPALG  = $(wildcard $(SDIR)/impl/*.cpp)
+OBJS    = $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SOURCES))
 
 debug: CFLAGS += -DDEBUG -g
 debug: $(OUT)
 
+$(ODIR):
+	mkdir $(ODIR)
+	mkdir $(ODIR)/impl
+
 $(ODIR)/%.o: $(SDIR)/%.cpp 
 	$(CC) -c $(INC) -o $@ $< $(CFLAGS) 
 
-$(OUT): $(OBJS) 
+$(OUT): $(OBJS) $(ODIR)
 	$(CC) $(CFLAGS) -o $(OUT) $(OBJS)
 
 .PHONY: clean
