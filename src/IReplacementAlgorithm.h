@@ -1,7 +1,12 @@
 #include <iostream>
-#include "Entry.h"
 #include "everything.h"
 #include "semaphores.h"
+
+struct Entry {
+  int virtPage;
+  int physPage;
+  int data;
+};
 
 class IReplacementAlgorithm {
  public:

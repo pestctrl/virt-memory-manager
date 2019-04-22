@@ -5,9 +5,9 @@ ODIR = build
 SDIR = src
 INC = -Iinc
 
-SOURCES = $(wildcard $(SDIR)/*.cpp)
-REPALG  = $(wildcard $(SDIR)/impl/*.cpp)
-OBJS    = $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SOURCES))
+SOURCES = $(wildcard $(SDIR)/*.cpp) \
+	      $(wildcard $(SDIR)/impl/*.cpp)
+OBJS    = $(patsubst $(SRC)/%.cpp, $(OBJ)/%.o, $(SOURCES))
 
 debug: CFLAGS += -DDEBUG -g
 debug: $(OUT)
