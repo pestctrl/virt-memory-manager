@@ -48,7 +48,7 @@ void becomeProcess(Arguments * e, int semid, int id, Strategy s, bool verbose) {
     break;
   case optx : ra = new OPTX(e->pageFramesPerProcess, p->id, semid, id, e->xValue, p->accesses);
     break;
-  case ws : ra = new WS(e->pageFramesPerProcess, p->id, semid, id, e->wsMin, e->wsMax);
+  case ws :   ra = new WS(e->pageFramesPerProcess, p->id, semid, id, e->wsMin, e->wsMax);
     break;
   }
   
@@ -102,9 +102,9 @@ void runSimulation(Arguments * e, Strategy s, bool verbose) {
     break;
   case optx : std::cout << "Running OPTX simulation" << std::endl;
     break;
-  case ldf : std::cout << "Running LDF simulation" << std::endl;
+  case ldf :  std::cout << "Running LDF simulation" << std::endl;
     break;
-  case ws : std::cout << "Running WS simulation" << std::endl;
+  case ws :   std::cout << "Running WS simulation" << std::endl;
     break;
   }
   
