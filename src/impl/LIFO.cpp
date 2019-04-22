@@ -1,9 +1,6 @@
 #include <iostream>
 #include <cmath>
-#ifndef ReplacementAlgorithm
-#define ReplacementAlgorithm
 #include "ReplacementAlgorithm.h"
-#endif
 using namespace std;
 
 LIFO::LIFO(int pages, int id, int shmid, int semnum) : IReplacementAlgorithm(pages, id, shmid, semnum){

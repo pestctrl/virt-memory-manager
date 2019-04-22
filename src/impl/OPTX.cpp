@@ -1,9 +1,6 @@
 #include <iostream>
 #include <cmath>
-#ifndef ReplacementAlgorithm
-#define ReplacementAlgorithm
 #include "ReplacementAlgorithm.h"
-#endif
 using namespace std;
 
 OPTX::OPTX(int pages, int id, int shmid, int semnum, int x, vector<int> future) : IReplacementAlgorithm(pages, id, shmid, semnum){

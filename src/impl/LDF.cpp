@@ -1,9 +1,6 @@
 #include <iostream>
 #include <cmath>
-#ifndef ReplacementAlgorithm
-#define ReplacementAlgorithm
 #include "ReplacementAlgorithm.h"
-#endif
 using namespace std;
 
 LDF::LDF(int pages, int id, int shmid, int semnum, vector<int> accesses, int offsetBits) : IReplacementAlgorithm(pages, id, shmid, semnum) {

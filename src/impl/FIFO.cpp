@@ -1,9 +1,6 @@
 #include <iostream>
 #include <cmath>
-#ifndef ReplacementAlgorithm
-#define ReplacementAlgorithm
 #include "ReplacementAlgorithm.h"
-#endif
 using namespace std;
 
 FIFO::FIFO(int pages, int id, int semid, int semnum) : IReplacementAlgorithm(pages, id, semid, semnum){

@@ -1,9 +1,6 @@
 #include <iostream>
 #include <cmath>
-#ifndef ReplacementAlgorithm
-#define ReplacementAlgorithm
 #include "ReplacementAlgorithm.h"
-#endif
 using namespace std;
 
 LRUX::LRUX(int pages, int id, int shmid, int semnum, int x) : IReplacementAlgorithm(pages, id, shmid, semnum){
