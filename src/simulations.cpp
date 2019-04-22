@@ -147,5 +147,5 @@ void runSimulations(Arguments * e, bool verbose) {
   runSimulation(e, lrux, verbose);
   runSimulation(e, ldf, verbose);
   runSimulation(e, optx, verbose);
-  runSimulation(e, Strategy::ws, verbose);
+  runSimulation(e, ws, verbose);
 }
