@@ -1,6 +1,5 @@
 #include "../IReplacementAlgorithm.h"
 #include <vector>
-using namespace std;
 
 class FIFO : public IReplacementAlgorithm {
  public:
@@ -28,7 +27,7 @@ class LRUX : public IReplacementAlgorithm {
 class LDF : public IReplacementAlgorithm {
  public:
   int modulo;
-  LDF(int pages, int id, int shmid, int semnum, vector<int> accesses, int offBits);
+  LDF(int pages, int id, int shmid, int semnum, std::vector<int> accesses, int offBits);
   int getLongestPage(int page);
   int * calculateDistances(int page);
   virtual void access(int virt, Process * p);
@@ -37,9 +36,9 @@ class LDF : public IReplacementAlgorithm {
 class OPTX : public IReplacementAlgorithm {
  public:
   int xVal;
-  vector<int> futures;
+  std::vector<int> futures;
   int current;
-  OPTX(int pages, int id, int shmid, int semnum, int x, vector<int> accesses);
+  OPTX(int pages, int id, int shmid, int semnum, int x, std::vector<int> accesses);
   int getFarthestIndex(int offBits);
   int maximum(int * arr);
   int * calculateDistances(int offBits);
@@ -48,7 +47,7 @@ class OPTX : public IReplacementAlgorithm {
 
 class WS : public IReplacementAlgorithm {
  public:
-  vector<int> workingSet;
+  std::vector<int> workingSet;
   WS(int pages, int id, int shmid, int semnum, int min, int max);
   virtual void access(int virt, Process * p);
 };

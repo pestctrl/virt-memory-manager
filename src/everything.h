@@ -1,16 +1,15 @@
 #include <vector>
-using namespace std;
 
 struct Process {
   int id, pageBits, segmentBits, offsetBits;
-  vector<int> pageTable;
-  vector<int> segmentTable;
-  vector<int> accesses;
+  std::vector<int> pageTable;
+  std::vector<int> segmentTable;
+  std::vector<int> accesses;
 };
 
 struct Arguments {
   int pageFramesPerProcess, xValue, wsMin, wsMax;
-  vector<Process*> processes;
+  std::vector<Process*> processes;
 };
 
 Arguments * parseArguments(char * filename);
